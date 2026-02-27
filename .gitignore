@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb~
+
+# Data files (large CSVs)
+# data/*.csv   # Uncomment to ignore raw data
+
+# Models (optional – uncomment if you don't want to track .pkl files)
+# models/*.pkl
+
+# Images / charts
+images/charts/*.png
+images/charts/*.jpg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

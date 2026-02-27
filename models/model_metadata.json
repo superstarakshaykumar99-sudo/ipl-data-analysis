@@ -1,0 +1,28 @@
+{
+  "model_name": "GradientBoosting",
+  "features": [
+    "team1",
+    "team2",
+    "toss_winner",
+    "toss_decision",
+    "venue"
+  ],
+  "metrics": {
+    "RandomForest": {
+      "cv_mean": 0.4748,
+      "cv_std": 0.0119,
+      "test_accuracy": 0.4771
+    },
+    "GradientBoosting": {
+      "cv_mean": 0.4989,
+      "cv_std": 0.0272,
+      "test_accuracy": 0.5092
+    },
+    "LogisticRegression": {
+      "cv_mean": 0.227,
+      "cv_std": 0.0257,
+      "test_accuracy": 0.2431
+    }
+  },
+  "trained_at": "2026-02-27T12:07:31.377926"
+}
