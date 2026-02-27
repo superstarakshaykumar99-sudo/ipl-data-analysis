@@ -57,13 +57,26 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-DATA_DIR = BASE_DIR / "data"
-MATCHES_PATH = DATA_DIR / "matches.csv"
+
+# ── Resolve data paths (try multiple candidates for Streamlit Cloud) ──────────
+def _find_data_dir() -> Path:
+    """Try several candidate locations so the app works locally and on Streamlit Cloud."""
+    candidates = [
+        Path(__file__).resolve().parent.parent / "data",   # normal: app/../data
+        Path.cwd() / "data",                               # cwd fallback
+        Path("/mount/src/ipl-data-analysis/data"),         # Streamlit Cloud mount
+    ]
+    for c in candidates:
+        if (c / "matches.csv").exists() and (c / "deliveries.csv").exists():
+            return c
+    return candidates[0]   # default even if not found (shows upload UI)
+
+DATA_DIR    = _find_data_dir()
+MATCHES_PATH    = DATA_DIR / "matches.csv"
 DELIVERIES_PATH = DATA_DIR / "deliveries.csv"
 
 
-def is_valid_csv(path) -> bool:
-    path = Path(path)
+def is_valid_csv(path: Path) -> bool:
     return path.exists() and path.stat().st_size > 0
 
 
@@ -90,6 +103,12 @@ else:
         "(https://www.kaggle.com/datasets/patrickb1912/ipl-complete-dataset-20082020).",
         icon="ℹ️",
     )
+    with st.expander("🔍 Debug info"):
+        st.code(f"DATA_DIR     : {DATA_DIR}\n"
+                f"matches.csv  : exists={MATCHES_PATH.exists()}\n"
+                f"deliveries   : exists={DELIVERIES_PATH.exists()}\n"
+                f"__file__     : {Path(__file__).resolve()}\n"
+                f"cwd          : {Path.cwd()}")
     col1, col2 = st.columns(2)
     with col1:
         matches_file = st.file_uploader("Upload `matches.csv`", type="csv", key="matches")
@@ -97,15 +116,22 @@ else:
         deliveries_file = st.file_uploader("Upload `deliveries.csv`", type="csv", key="deliveries")
 
     if matches_file and deliveries_file:
-        os.makedirs(DATA_DIR, exist_ok=True)
-        raw_m = pd.read_csv(matches_file)
-        raw_d = pd.read_csv(deliveries_file)
-        raw_m.to_csv(MATCHES_PATH, index=False)
-        raw_d.to_csv(DELIVERIES_PATH, index=False)
-        st.success("✅ Files uploaded! Reload the page to continue.")
+        import tempfile, shutil
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "matches.csv").write_bytes(matches_file.read())
+        (tmp / "deliveries.csv").write_bytes(deliveries_file.read())
+        # Override paths to temp dir so load_all_data can find them
+        MATCHES_PATH    = tmp / "matches.csv"
+        DELIVERIES_PATH = tmp / "deliveries.csv"
+        try:
+            matches, deliveries = load_all_data()
+            st.success("✅ Files loaded! Scroll up to use the dashboard.")
+        except Exception as e:
+            st.error(f"❌ {e}")
         st.stop()
     else:
         st.stop()
+
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
