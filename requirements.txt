@@ -10,3 +10,4 @@ ipykernel
 plotly
 joblib
 kagglehub
+altair==4.2.2
