@@ -7,6 +7,11 @@
 
 A comprehensive **data analysis and machine learning project** built on 15+ years of IPL (Indian Premier League) cricket data. Includes statistical analysis, interactive visualisations, and an ML-powered match-winner predictor.
 
+## 🌐 Live Demo
+
+🔗 **Try the App Here:**  
+ https://ipl-data-analysis-tgrbhtmkjnrsbrwddakbnu.streamlit.app
+
 ---
 
 ## 📁 Project Structure
