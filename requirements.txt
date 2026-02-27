@@ -1,12 +1,10 @@
+streamlit==1.32.2
 pandas
 numpy
 matplotlib
 seaborn
 scikit-learn
-streamlit
-jupyter
-notebook
-ipykernel
 plotly
 joblib
 kagglehub
+altair>=4,<5

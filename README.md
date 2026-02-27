@@ -37,7 +37,7 @@ ipl-data-analysis/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/ipl-data-analysis.git
+git clone https://github.com/superstarakshaykumar99-sudo/ipl-data-analysis.git
 cd ipl-data-analysis
 ```
 
