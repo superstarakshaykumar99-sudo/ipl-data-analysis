@@ -9,11 +9,13 @@ import os
 import sys
 import pickle
 import json
+from pathlib import Path
 import matplotlib.pyplot as plt
 import streamlit as st
 import pandas as pd
 
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(BASE_DIR))
 
 from src.data_cleaning import clean_matches, clean_deliveries
 from src.analysis import (
@@ -55,13 +57,14 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
-MATCHES_PATH = os.path.join(DATA_DIR, "matches.csv")
-DELIVERIES_PATH = os.path.join(DATA_DIR, "deliveries.csv")
+DATA_DIR = BASE_DIR / "data"
+MATCHES_PATH = DATA_DIR / "matches.csv"
+DELIVERIES_PATH = DATA_DIR / "deliveries.csv"
 
 
-def is_valid_csv(path: str) -> bool:
-    return os.path.exists(path) and os.path.getsize(path) > 0
+def is_valid_csv(path) -> bool:
+    path = Path(path)
+    return path.exists() and path.stat().st_size > 0
 
 
 # ── Data loading ──────────────────────────────────────────────────────────────
