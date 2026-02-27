@@ -15,10 +15,28 @@ venv/
 env/
 .venv/
 .env/
+ENV/
+env.bak/
+venv.bak/
 
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb~
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+.pytest_cache/
+cover/
 
 # Data files (large CSVs)
 # data/*.csv   # Uncomment to ignore raw data
@@ -42,3 +60,11 @@ Thumbs.db
 
 # Logs
 *.log
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
